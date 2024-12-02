@@ -25,6 +25,22 @@ app.get('/', (req, res) => {
 });
 app.use('/', router);
 
+app.use((req, res, next) => {
+    if (req.headers.host === 'insta-weather.onrender.com') {
+        express.static(path.join(__dirname, '../frontend/build'))(req, res, next);
+    } else {
+        next();
+    }
+});
+
+app.get('*', (req, res, next) => {
+    if (req.headers.host === 'insta-weather.onrender.com') {
+        res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+    } else {
+        next();
+    }
+});
+
 mongoose
 .connect(process.env.DB_URI, {})
 .then(() => console.log("MONGODB Connected!"))
