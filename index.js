@@ -3,6 +3,7 @@ const cors = require('cors')
 const bodyParser = require("body-parser")
 const router = require("./routes/router");
 const mongoose = require("mongoose");
+const path = require('path');
 require("dotenv/config")
 
 const app = express();
@@ -19,6 +20,12 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use('/', router);
+
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+});
 
 mongoose
 .connect(process.env.DB_URI, {})
