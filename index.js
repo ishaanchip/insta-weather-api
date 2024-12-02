@@ -20,10 +20,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, 'views')));
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
-app.use('/', router);
 
 app.use((req, res, next) => {
     if (req.headers.host === 'insta-weather.onrender.com') {
@@ -35,11 +31,13 @@ app.use((req, res, next) => {
 
 app.get('*', (req, res, next) => {
     if (req.headers.host === 'insta-weather.onrender.com') {
-        res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+        res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
     } else {
         next();
     }
 });
+
+app.use('/', router);
 
 mongoose
 .connect(process.env.DB_URI, {})
