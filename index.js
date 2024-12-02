@@ -30,3 +30,13 @@ const port = process.env.PORT || 4000;
 const server = app.listen(port, ()=>{
     console.log(`Server is running: PORT ${port}`)
 })
+
+const axios = require('axios');
+
+axios.get('https://api64.ipify.org?format=json')
+  .then(response => {
+    console.log('Server outbound IP address:', response.data.ip);
+  })
+  .catch(error => {
+    console.error('Error fetching IP address:', error);
+  });
