@@ -4,6 +4,7 @@ const bodyParser = require("body-parser")
 const router = require("./routes/router");
 const mongoose = require("mongoose");
 require("dotenv/config")
+const path = require('path');
 
 const app = express();
 
@@ -18,6 +19,10 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
+app.use(express.static(path.join(__dirname, 'views')));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
 app.use('/', router);
 
 mongoose
