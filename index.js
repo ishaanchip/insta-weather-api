@@ -21,22 +21,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, 'views')));
 
-app.use((req, res, next) => {
-    if (req.headers.host === 'insta-weather.onrender.com') {
-        express.static(path.join(__dirname, '../frontend/build'))(req, res, next);
-    } else {
-        next();
-    }
-});
-
-app.get('*', (req, res, next) => {
-    if (req.headers.host === 'insta-weather.onrender.com') {
-        res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
-    } else {
-        next();
-    }
-});
-
 app.use('/', router);
 
 mongoose
